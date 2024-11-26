@@ -12,10 +12,10 @@ import {
 
 const App = () => {
   const [imageState, setImageState] = useState({
-    width: 300, // Initial width
-    height: 300, // Initial height
-    top: 100, // Initial top position
-    left: 100, // Initial left position
+    width: 300,
+    height: 300,
+    top: 100,
+    left: 100,
     rotation: 0,
   });
 
@@ -97,7 +97,7 @@ const App = () => {
   const handleRotation = () => {
     setImageState((prev) => ({
       ...prev,
-      rotation: (prev.rotation + 90) % 360, // Increment rotation by 90 degrees
+      rotation: (prev.rotation + 90) % 360,
     }));
   };
 
