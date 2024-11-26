@@ -19,14 +19,19 @@ const App = () => {
     rotation: 0,
   });
 
+  const minWidth = 100;
+  const minHeight = 100;
+  const maxWidth = 800;
+  const maxHeight = 500;
+
   const handleResize = (event, direction) => {
     event.preventDefault();
     const startX = event.clientX;
     const startY = event.clientY;
     const startWidth = imageState.width;
     const startHeight = imageState.height;
-    const startTop = imageState.top;
-    const startLeft = imageState.left;
+    // const startTop = imageState.top;
+    // const startLeft = imageState.left;
 
     const onMouseMove = (e) => {
       const dx = e.clientX - startX;
@@ -34,43 +39,55 @@ const App = () => {
 
       let newWidth = startWidth;
       let newHeight = startHeight;
-      let newTop = startTop;
-      let newLeft = startLeft;
+      // let newTop = startTop;
+      // let newLeft = startLeft;
 
       switch (direction) {
         case "right":
-          newWidth = Math.max(50, startWidth + dx);
+          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
           break;
         case "bottom":
-          newHeight = Math.max(50, startHeight + dy);
+          newHeight = Math.max(
+            minHeight,
+            Math.min(maxHeight, startHeight + dy)
+          );
           break;
         case "left":
-          newWidth = Math.max(50, startWidth - dx);
-          newLeft = startLeft + dx;
+          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
           break;
         case "top":
-          newHeight = Math.max(50, startHeight - dy);
-          newTop = startTop + dy;
+          newHeight = Math.max(
+            minHeight,
+            Math.min(maxHeight, startHeight - dy)
+          );
           break;
         case "bottom-right":
-          newWidth = Math.max(50, startWidth + dx);
-          newHeight = Math.max(50, startHeight + dy);
+          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
+          newHeight = Math.max(
+            minHeight,
+            Math.min(maxHeight, startHeight + dy)
+          );
           break;
         case "bottom-left":
-          newWidth = Math.max(50, startWidth - dx);
-          newLeft = startLeft + dx;
-          newHeight = Math.max(50, startHeight + dy);
+          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
+          newHeight = Math.max(
+            minHeight,
+            Math.min(maxHeight, startHeight + dy)
+          );
           break;
         case "top-right":
-          newWidth = Math.max(50, startWidth + dx);
-          newHeight = Math.max(50, startHeight - dy);
-          newTop = startTop + dy;
+          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
+          newHeight = Math.max(
+            minHeight,
+            Math.min(maxHeight, startHeight - dy)
+          );
           break;
         case "top-left":
-          newWidth = Math.max(50, startWidth - dx);
-          newHeight = Math.max(50, startHeight - dy);
-          newLeft = startLeft + dx;
-          newTop = startTop + dy;
+          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
+          newHeight = Math.max(
+            minHeight,
+            Math.min(maxHeight, startHeight - dy)
+          );
           break;
         default:
           break;
@@ -80,8 +97,6 @@ const App = () => {
         ...prev,
         width: newWidth,
         height: newHeight,
-        top: newTop,
-        left: newLeft,
       }));
     };
 
