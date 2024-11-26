@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Dropdown, Space } from "antd";
 import {
   UndoOutlined,
@@ -132,8 +132,8 @@ const App = () => {
   ];
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      {/* Resizable Container */}
+    <div className="flex min-h-screen w-screen bg-gray-100">
+      {/* Feature Container */}
       <div
         className="absolute rounded-md bg-white shadow-lg px-8 py-2 flex items-center gap-7"
         style={{
