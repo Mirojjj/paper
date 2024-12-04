@@ -16,8 +16,6 @@ const App = () => {
     left: 100,
   });
 
-  const divRef = useRef(null);
-
   const [imageState, setImageState] = useState({
     width: 300,
     height: 300,
@@ -42,94 +40,204 @@ const App = () => {
     },
   });
 
-  const minWidth = 100;
-  const minHeight = 100;
-  const maxWidth = 800;
-  const maxHeight = 500;
+  let minWidth = 100;
+  let minHeight = 100;
+  let maxWidth = 800;
+  let maxHeight = 500;
 
   const handleResize = (event, direction) => {
     event.preventDefault();
     const startX = event.clientX;
     const startY = event.clientY;
-    const startWidth = imageState.width;
-    const startHeight = imageState.height;
+    let startWidth = imageState.width;
+    let startHeight = imageState.height;
     const startTop = imageState.top;
     const startLeft = imageState.left;
 
     console.log(startX, startY);
+    console.log(direction);
+    //changing the sides in  handlerotation and make the top and left constant according to it.
 
     const onMouseMove = (e) => {
-      // console.log(e.clientX);
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
-      let oldwidth = startWidth;
-      let oldheight = startHeight;
+
       let newWidth = startWidth;
       let newHeight = startHeight;
-      const { rotation, top, left, width, height } = imageState;
+      let newTop = startTop;
+      let newLeft = startLeft;
 
-      console.log("rott" + rotation);
-      switch (direction) {
-        case "right":
-          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
-          break;
-        case "bottom":
-          newHeight = Math.max(
-            minHeight,
-            Math.min(maxHeight, startHeight + dy)
-          );
-          break;
-        case "left":
-          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
-          break;
-        case "top":
-          newHeight = Math.max(
-            minHeight,
-            Math.min(maxHeight, startHeight - dy)
-          );
-          break;
-        case "bottom-right":
-          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
-          newHeight = Math.max(
-            minHeight,
-            Math.min(maxHeight, startHeight + dy)
-          );
-          break;
-        case "bottom-left":
-          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
-          newHeight = Math.max(
-            minHeight,
-            Math.min(maxHeight, startHeight + dy)
-          );
-          break;
-        case "top-right":
-          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
-          newHeight = Math.max(
-            minHeight,
-            Math.min(maxHeight, startHeight - dy)
-          );
-          break;
-        case "top-left":
-          newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
-          newHeight = Math.max(
-            minHeight,
-            Math.min(maxHeight, startHeight - dy)
-          );
-          break;
-        default:
-          break;
+      const { rotation } = imageState;
+
+      // Handle rotation-specific cases
+      if (rotation === 90 || rotation === 270) {
+        switch (direction) {
+          case "right":
+            newHeight = Math.max(
+              minWidth,
+              Math.min(maxWidth, startHeight + dx)
+            );
+            break;
+          case "bottom":
+            newWidth = Math.max(
+              minHeight,
+              Math.min(maxHeight, startWidth + dy)
+            );
+            break;
+          case "left":
+            newHeight = Math.max(
+              minWidth,
+              Math.min(maxWidth, startHeight - dx)
+            );
+            break;
+          case "top":
+            newWidth = Math.max(
+              minHeight,
+              Math.min(maxHeight, startWidth - dy)
+            );
+            break;
+          case "bottom-right":
+            newHeight = Math.max(
+              minWidth,
+              Math.min(maxWidth, startHeight + dx)
+            );
+            newWidth = Math.max(
+              minHeight,
+              Math.min(maxHeight, startWidth + dy)
+            );
+            break;
+          case "bottom-left":
+            newHeight = Math.max(
+              minWidth,
+              Math.min(maxWidth, startHeight - dx)
+            );
+            newWidth = Math.max(
+              minHeight,
+              Math.min(maxHeight, startWidth + dy)
+            );
+            break;
+          case "top-right":
+            newHeight = Math.max(
+              minWidth,
+              Math.min(maxWidth, startHeight + dx)
+            );
+            newWidth = Math.max(
+              minHeight,
+              Math.min(maxHeight, startWidth - dy)
+            );
+            break;
+          case "top-left":
+            newHeight = Math.max(
+              minWidth,
+              Math.min(maxWidth, startHeight - dx)
+            );
+            newWidth = Math.max(
+              minHeight,
+              Math.min(maxHeight, startWidth - dy)
+            );
+            break;
+          default:
+            break;
+        }
+      } else {
+        // Handle default rotation (0° or 180°)
+        switch (direction) {
+          case "right":
+            newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
+            break;
+          case "bottom":
+            newHeight = Math.max(
+              minHeight,
+              Math.min(maxHeight, startHeight + dy)
+            );
+            break;
+          case "left":
+            newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
+            break;
+          case "top":
+            newHeight = Math.max(
+              minHeight,
+              Math.min(maxHeight, startHeight - dy)
+            );
+            break;
+          case "bottom-right":
+            newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
+            newHeight = Math.max(
+              minHeight,
+              Math.min(maxHeight, startHeight + dy)
+            );
+            break;
+          case "bottom-left":
+            newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
+            newHeight = Math.max(
+              minHeight,
+              Math.min(maxHeight, startHeight + dy)
+            );
+            break;
+          case "top-right":
+            newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + dx));
+            newHeight = Math.max(
+              minHeight,
+              Math.min(maxHeight, startHeight - dy)
+            );
+            break;
+          case "top-left":
+            newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth - dx));
+            newHeight = Math.max(
+              minHeight,
+              Math.min(maxHeight, startHeight - dy)
+            );
+            break;
+          default:
+            break;
+        }
       }
 
+      // Update state
       setImageState((prev) => ({
         ...prev,
-        oldWidth: oldwidth,
-        oldHeight: oldheight,
         width: newWidth,
         height: newHeight,
+        top: newTop,
+        left: newLeft,
       }));
     };
 
     const onMouseUp = () => {
+      setImageState((prev) => {
+        const { width, height, top, left, rotation } = prev;
+
+        let newTop = top;
+        let newLeft = left;
+
+        // Calculate the new rotation angle
+        // const newRotation = (rotation + 90) % 360;
+
+        // Adjust `top` and `left` based on the new rotation
+        switch (rotation) {
+          case 90: // Rotate to 90 degrees
+            newTop = 100 - (height - width) / 2;
+            newLeft = 100 + (height - width) / 2;
+            break;
+
+          case 270: // Rotate to 270 degrees
+            newTop = 100 - (height - width) / 2;
+            newLeft = 100 + (height - width) / 2;
+            break;
+
+          default:
+            break;
+        }
+
+        // Update the image state
+        return {
+          ...prev,
+          top: newTop,
+          left: newLeft,
+        };
+      });
+
+      // Remove the event listeners to clean up
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     };
@@ -140,6 +248,7 @@ const App = () => {
 
   const handleRotation = () => {
     setImageState((prev) => {
+      let tempHeight, newHeight, newWidth;
       let newTop = prev.top;
       let newLeft = prev.left;
       const newCorners = { ...prev.corners };
@@ -147,6 +256,7 @@ const App = () => {
       // Calculate adjustments based on the new rotation
 
       const newRotation = (prev.rotation + 90) % 360;
+
       if (newRotation === 0) {
         newTop = 100;
         newLeft = 100;
@@ -161,6 +271,9 @@ const App = () => {
         newSides.divTop = "top";
         newSides.divBotttom = "bottom";
       } else if (newRotation === 90) {
+        console.log(prev.height);
+        console.log(prev.width);
+        // tempHeight = imageState.height;
         // Rotate to 90 degrees
         newTop = prev.top + (prev.width - prev.height) / 2;
         newLeft = prev.left - (prev.width - prev.height) / 2;
@@ -172,12 +285,15 @@ const App = () => {
         newCorners.bottomRight = prev.corners.bottomLeft;
         newCorners.bottomLeft = prev.corners.topLeft;
 
-        newSides.divLeft = prev.sides.divBotttom;
-        newSides.divRight = prev.sides.divTop;
-        newSides.divTop = prev.sides.divLeft;
-        newSides.divBotttom = prev.sides.divRight;
+        console.log(newSides.divLeft);
+        console.log(prev.sides.divLeft);
+        newSides.divLeft = prev.sides.divTop;
+        newSides.divRight = prev.sides.divBotttom;
+        newSides.divTop = prev.sides.divRight;
+        newSides.divBotttom = prev.sides.divLeft;
       } else if (newRotation === 180) {
         // Rotate to 180 degrees
+
         newTop = prev.top - (prev.width - prev.height) / 2;
         newLeft = prev.left + (prev.width - prev.height) / 2;
 
@@ -186,10 +302,10 @@ const App = () => {
         newCorners.bottomRight = prev.corners.bottomLeft;
         newCorners.bottomLeft = prev.corners.topLeft;
 
-        newSides.divLeft = prev.sides.divRight;
-        newSides.divRight = prev.sides.divLeft;
-        newSides.divTop = prev.sides.divBotttom;
-        newSides.divBotttom = prev.sides.divTop;
+        newSides.divLeft = prev.sides.divTop;
+        newSides.divRight = prev.sides.divBotttom;
+        newSides.divTop = prev.sides.divRight;
+        newSides.divBotttom = prev.sides.divLeft;
       } else if (newRotation === 270) {
         // Rotate to 270 degrees
         newTop = prev.top + (prev.width - prev.height) / 2;
@@ -209,6 +325,7 @@ const App = () => {
       // Update the image state
       return {
         ...prev,
+
         top: newTop,
         left: newLeft,
         rotation: newRotation,
@@ -217,6 +334,31 @@ const App = () => {
       };
     });
   };
+
+  function getDynamicCursor(rotation, baseDirection) {
+    // All possible directions in order
+    const directions = [
+      "n-resize", // Top
+      "ne-resize", // Top-right
+      "e-resize", // Right
+      "se-resize", // Bottom-right
+      "s-resize", // Bottom
+      "sw-resize", // Bottom-left
+      "w-resize", // Left
+      "nw-resize", // Top-left
+    ];
+
+    const baseIndex = directions.indexOf(baseDirection);
+
+    // Normalize rotation to 0-360
+    const normalizedRotation = ((rotation % 360) + 360) % 360;
+
+    // Determine the index offset based on the rotation
+    const offset = Math.round(normalizedRotation / 45) % 8;
+
+    // Get the new direction
+    return directions[(baseIndex + offset) % 8];
+  }
 
   const items = [
     {
@@ -265,8 +407,7 @@ const App = () => {
           <DeleteOutlined className="text-2xl" />
         </div>
         <div
-          ref={divRef}
-          className=" relative border-4 border-blue-400 bg-white"
+          className=" relative border-4 border-blue-400"
           style={{
             width: `${imageState.width}px`,
             height: `${imageState.height}px`,
@@ -274,7 +415,7 @@ const App = () => {
             left: `${imageState.left}px`,
             // bottom: 100,
             // position: "absolute",
-            transform: `rotate(${imageState.rotation}deg)`,
+            transform: `rotate(${imageState.rotation}deg) translateZ(0px)`,
           }}
         >
           {/* Image */}
@@ -287,7 +428,10 @@ const App = () => {
           {/* Resize Handles */}
           {/* Corners */}
           <div
-            className="absolute -top-2 -left-2 w-4 h-4 bg-white border-4 border-blue-500 rounded-3xl cursor-nw-resize"
+            className={`absolute -top-2 -left-2 w-4 h-4 bg-white border-4 border-blue-500 rounded-3xl $`}
+            style={{
+              cursor: getDynamicCursor(imageState.rotation, "nw-resize"),
+            }}
             onMouseDown={(e) =>
               handleResize(e, `${imageState.corners.topLeft}`)
             }
@@ -295,7 +439,10 @@ const App = () => {
             {imageState.corners.topLeft}
           </div>
           <div
-            className="absolute -top-2 -right-2 w-4 h-4  bg-white border-4 border-blue-500 rounded-3xl cursor-ne-resize"
+            className="absolute -top-2 -right-2 w-4 h-4  bg-white border-4 border-blue-500 rounded-3xl"
+            style={{
+              cursor: getDynamicCursor(imageState.rotation, "ne-resize"),
+            }}
             onMouseDown={(e) =>
               handleResize(e, `${imageState.corners.topRight}`)
             }
@@ -303,7 +450,10 @@ const App = () => {
             {imageState.corners.topRight}
           </div>
           <div
-            className="absolute -bottom-2 -left-2 w-4 h-4  bg-white border-4 border-blue-500 rounded-3xl cursor-sw-resize"
+            className="absolute -bottom-2 -left-2 w-4 h-4  bg-white border-4 border-blue-500 rounded-3xl"
+            style={{
+              cursor: getDynamicCursor(imageState.rotation, "sw-resize"),
+            }}
             onMouseDown={(e) =>
               handleResize(e, `${imageState.corners.bottomLeft}`)
             }
@@ -311,7 +461,10 @@ const App = () => {
             {imageState.corners.bottomLeft}
           </div>
           <div
-            className="absolute -bottom-2 -right-2 w-4 h-4 bg-white border-4 border-blue-500 rounded-3xl cursor-se-resize"
+            className="absolute -bottom-2 -right-2 w-4 h-4 bg-white border-4 border-blue-500 rounded-3xl"
+            style={{
+              cursor: getDynamicCursor(imageState.rotation, "se-resize"),
+            }}
             onMouseDown={(e) =>
               handleResize(e, `${imageState.corners.bottomRight}`)
             }
@@ -321,23 +474,43 @@ const App = () => {
 
           {/* Borders */}
           <div
-            className="absolute -top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-transparent cursor-n-resize bg-white border-4 border-blue-500 rounded-3xl"
+            className="absolute -top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-transparent bg-white border-4 border-blue-500 rounded-3xl"
+            style={{
+              cursor: getDynamicCursor(imageState.rotation, "n-resize"),
+            }}
             onMouseDown={(e) => handleResize(e, `${imageState.sides.divTop}`)}
-          ></div>
+          >
+            {imageState.sides.divTop}
+          </div>
           <div
-            className="absolute -bottom-5 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-transparent cursor-s-resize bg-white border-4 border-blue-500 rounded-3xl"
+            className="absolute -bottom-5 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-transparent bg-white border-4 border-blue-500 rounded-3xl"
+            style={{
+              cursor: getDynamicCursor(imageState.rotation, "s-resize"),
+            }}
             onMouseDown={(e) =>
               handleResize(e, `${imageState.sides.divBotttom}`)
             }
-          ></div>
+          >
+            {imageState.sides.divBotttom}
+          </div>
           <div
-            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2  w-4 h-4  bg-transparent cursor-w-resize bg-white border-4 border-blue-500 rounded-3xl"
+            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2  w-4 h-4  bg-transparent bg-white border-4 border-blue-500 rounded-3xl"
+            style={{
+              cursor: getDynamicCursor(imageState.rotation, "w-resize"),
+            }}
             onMouseDown={(e) => handleResize(e, `${imageState.sides.divLeft}`)}
-          ></div>
+          >
+            {imageState.sides.divLeft}
+          </div>
           <div
-            className="absolute top-1/2 -right-5 -translate-x-1/2 -translate-y-1/2  w-4 h-4 bg-transparent cursor-e-resize bg-white border-4 border-blue-500 rounded-3xl"
+            className="absolute top-1/2 -right-5 -translate-x-1/2 -translate-y-1/2  w-4 h-4 bg-transparent bg-white border-4 border-blue-500 rounded-3xl"
+            style={{
+              cursor: getDynamicCursor(imageState.rotation, "e-resize"),
+            }}
             onMouseDown={(e) => handleResize(e, `${imageState.sides.divRight}`)}
-          ></div>
+          >
+            {imageState.sides.divRight}
+          </div>
         </div>
       </div>
     </div>
